@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Cuál es tu carrera? — Orientación Vocacional</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- ── Progress bar ─────────────────────────────────────── -->
+  <div class="progress-bar-outer" style="margin-top:24px">
+    <div class="progress-bar-inner" id="progressBar" style="width:33%"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       PANTALLA 1 — FORMULARIO
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="screen-form" class="screen">
+    <div class="app-header">
+      <span class="step-label">Paso 1 de 3 · Tu perfil</span>
+      <h1>¿Qué quieres ser<br>cuando seas grande?</h1>
+      <p>Cuéntanos un poco sobre ti y elige la carrera que más te llama la atención.<br>
+         ¡Juntos descubriremos si es la indicada para ti!</p>
+    </div>
+
+    <div class="card mt-24">
+      <h2 style="font-size:1.1rem;margin-bottom:20px">Tus datos</h2>
+
+      <div class="form-row">
+        <div class="form-group" id="fg-nombre">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" placeholder="Tu nombre" autocomplete="given-name">
+          <span class="error-msg">Por favor ingresa tu nombre.</span>
+        </div>
+        <div class="form-group" id="fg-apellido">
+          <label for="apellido">Apellido</label>
+          <input type="text" id="apellido" placeholder="Tu apellido" autocomplete="family-name">
+          <span class="error-msg">Por favor ingresa tu apellido.</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" id="fg-edad">
+          <label for="edad">Edad</label>
+          <select id="edad">
+            <option value="">Selecciona...</option>
+            <option value="14">14 años</option>
+            <option value="15">15 años</option>
+          </select>
+          <span class="error-msg">Debes tener 14 o 15 años.</span>
+        </div>
+        <div class="form-group" id="fg-colegio">
+          <label for="colegio">Colegio</label>
+          <input type="text" id="colegio" placeholder="Nombre del colegio" autocomplete="organization">
+          <span class="error-msg">Por favor ingresa el nombre de tu colegio.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Area selection -->
+    <div class="card">
+      <h2 style="font-size:1.1rem;margin-bottom:6px">¿Qué área te apasiona más?</h2>
+      <p style="font-size:.85rem;color:var(--text-2);margin-bottom:16px">Elige una para ver las carreras disponibles.</p>
+
+      <div class="area-grid" id="areaGrid"></div>
+
+      <div class="carreras-section hidden" id="carrerasSection">
+        <h3 id="carrerasLabel">Elige una carrera:</h3>
+        <div class="carrera-pills" id="carreraPills"></div>
+      </div>
+
+      <div id="fg-area" style="display:none">
+        <span class="error-msg" style="display:block;font-size:.78rem;color:var(--accent);margin-top:6px">Debes seleccionar un área y una carrera.</span>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="btnEmpezar" disabled>
+      ¡Empezar mi programa! →
+    </button>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       PANTALLA 2 — PROGRAMA DEL SEMESTRE
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="screen-programa" class="screen hidden">
+    <div class="app-header">
+      <span class="step-label">Paso 2 de 3 · Tu programa</span>
+      <h1 id="programaTitle">Tu programa de<br>un semestre</h1>
+      <p id="programaSubtitle">16 semanas · 8 módulos bisemanales</p>
+    </div>
+
+    <div class="problema-callout mt-24" id="problemaCallout">
+      <div class="callout-label">Tu reto del semestre</div>
+      <p id="problemaTexto"></p>
+    </div>
+
+    <div class="modulo-list" id="moduloList"></div>
+
+    <div class="sticky-cta">
+      <button class="btn btn-primary" id="btnEvaluar">
+        ✅ Completé el programa → Evaluarme
+      </button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       PANTALLA 3 — EVALUACIÓN Y RESULTADO
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="screen-evaluacion" class="screen hidden">
+
+    <!-- Sub-section: Rating form -->
+    <div id="evalForm">
+      <div class="app-header">
+        <span class="step-label">Paso 3 de 3 · Tu evaluación</span>
+        <h1>¿Cómo te fue?</h1>
+        <p>Califica tu experiencia honestamente. No hay respuestas correctas ni incorrectas.</p>
+      </div>
+
+      <div class="mt-24" id="evalCards"></div>
+
+      <button class="btn btn-primary" id="btnSubmitEval" disabled>
+        Ver mi resultado →
+      </button>
+    </div>
+
+    <!-- Sub-section: Result -->
+    <div id="evalResult" class="hidden">
+      <div class="app-header">
+        <span class="step-label">Tu resultado</span>
+      </div>
+
+      <div class="result-card mt-24">
+        <div class="result-emoji" id="resultEmoji">🎉</div>
+        <div class="result-badge">
+          <span class="score-num" id="resultScore">0</span>
+          <span class="score-den">/ 100</span>
+        </div>
+        <div class="result-decision" id="resultDecision"></div>
+        <p class="result-message" id="resultMessage"></p>
+
+        <div class="dimension-bars" id="dimensionBars"></div>
+      </div>
+
+      <button class="btn btn-outline" id="btnPrint" onclick="window.print()">
+        🖨️ Guardar / Imprimir resultado
+      </button>
+
+      <div class="card mt-16 text-center" style="padding:20px">
+        <p style="font-size:.88rem;color:var(--text-2)">
+          ¿Quieres explorar otra carrera?
+        </p>
+        <button class="btn btn-primary mt-8" id="btnReiniciar" style="margin-top:12px">
+          Explorar otra carrera →
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.app-wrapper -->
+
+<!-- Toast notification -->
+<div id="toast" class="hidden" style="
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:#1a1a2e;color:#fff;padding:12px 24px;border-radius:99px;
+  font-size:.88rem;font-weight:600;z-index:1000;pointer-events:none;
+  box-shadow:0 4px 20px rgba(0,0,0,.25);transition:opacity .3s;
+"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
